@@ -3,7 +3,7 @@
       <div class="box">
         <ul class="action-list">
           <li class="actions" v-on:click='displayNotes'>View Notes</li>
-          <li class="actions">Create Note</li>
+          <li class="actions" v-on:click='displayCreate'>Create Note</li>
         </ul>
       </div>
   </div>
@@ -25,10 +25,14 @@
     },
     methods: {
       ...mapActions([
-        'toggleNotesVisible'
+        'toggleNotesVisible',
+        'toggleCreateVisible'
       ]),
       displayNotes() {
         this.toggleNotesVisible();
+      },
+      displayCreate() {
+        this.toggleCreateVisible();
       }
     }
   }

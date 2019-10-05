@@ -12,6 +12,7 @@ export default new Vuex.Store({
     userId: '',
     username: '',
     notesVisible: false,
+    createVisible: false,
     notes: [
       {
         description: 'This is a demo note to test out the appearence of the notes on the webpage.'
@@ -47,7 +48,16 @@ export default new Vuex.Store({
     updateUserId: (state, userId) => {
       state.userId = userId;
     },
-    toggleNotes: state => state.notesVisible = true
+    toggleNotes: state => state.notesVisible = true,
+    toggleCreate: state => {
+      state.notesVisible = false;
+      state.createVisible = true;
+    },
+    newNote: (state, newNoteDescription) => {
+      state.notes.push({description: newNoteDescription});
+      state.notesVisible = true;
+      state.createVisible = false;
+    }
   },
 
   actions: {
@@ -69,6 +79,16 @@ export default new Vuex.Store({
     toggleNotesVisible({commit}) {
       commit('toggleNotes');
       //console.log('state.notesVisible: ' + this.state.notesVisible);
+    },
+
+    toggleCreateVisible({commit}) {
+      commit('toggleCreate');
+      //console.log(this.state.createVisible);
+    },
+
+    createNote({commit}, newNote) {
+      //console.log(newNote.description);
+      commit('newNote', newNote.description);
     }
   }
 })

@@ -1,15 +1,21 @@
 <template>
-  <div class="notes-container" v-if='showContent'>
-    <h3 class="msg">Your Notes</h3>
-    <ul class="notes-list">
-        <li class="note" v-for="(note, index) in noteList" :key="index">
-            <p class="description">{{note.description}}</p>
-            <div class="button-container">
-                <button class="button edit-note">Edit</button>
-                <button class="button delete-note">Delete</button>
-            </div>
-        </li>
-    </ul>
+  <div class="notes-container" >
+    <div v-if='showContent'>
+        <h3 class="msg">Your Notes</h3>
+        <ul class="notes-list">
+            <li class="note" v-for="(note, index) in noteList" :key="index">
+                <p class="description">{{note.description}}</p>
+                <div class="button-container">
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="create" v-if='showCreate'>
+        <textarea placeholder="New Note..." cols="60" rows="1" v-model="note"></textarea>
+        <button id="create-button" v-on:click='newNote'>Create</button>
+    </div>
   </div>
 </template>
 
@@ -17,15 +23,36 @@
   import { mapState, mapActions } from 'vuex';
 
   export default {
+    data() {
+      return {
+        note: ''
+      }
+    },
     computed: {
         ...mapState([
-            'notesVisible'
+            'notesVisible',
+            'createVisible',
         ]),
         showContent: function() {
           return this.notesVisible;
         },
+        showCreate: function() {
+            return this.createVisible;
+        },
         noteList: function() {
             return this.$store.getters.noteList;
+        }
+    },
+    
+    methods: {
+        ...mapActions([
+            'createNote'
+        ]),
+        newNote: function() {
+            console.log('this.note: ' + this.note);
+            if(this.note) {
+                this.createNote({description: this.note});
+            }
         }
     }
   }
@@ -72,20 +99,39 @@
                 display: flex;
                 flex-direction: row;
             }
-            button {
-                margin-right: 1%;
-                padding: .5rem;
-                background-color: #96cebc;
-                border: none;
-                border-radius: 2px;
-                cursor: pointer;
-                &:hover {
-                    background-color: rgb(96, 194, 161);
-                    transition: background-color 0.5s ease;
-                }
-            }
         }
-    }  
+    }
+    .create{
+        display: flex;
+        flex-direction: column;
+        align-content: stretch;
+        textarea{
+            outline: none;
+            resize: none;
+            border: none;
+            padding: 1%;
+            font-size: 1.3rem;
+            background-color: #f1d47d;
+        }
+
+        #create-button {
+            max-width: 60px;
+            margin-top: 1%;
+        }
+    }
+
+    button {
+        margin-right: 1%;
+        padding: .5rem;
+        background-color: #96cebc;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(96, 194, 161);
+            transition: background-color 0.5s ease;
+        }
+    } 
   }
   .notes-container::-webkit-scrollbar { width: 0 !important }
 
