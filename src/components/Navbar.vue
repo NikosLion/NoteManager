@@ -27,7 +27,7 @@ export default {
 
 <style scoped lang="scss">
 header {
-    display: inline-flex;
+    display: flex;
     justify-content: space-between;;
     width: 100%;
     background-color: #96cebc;
@@ -43,7 +43,7 @@ header {
     font-family: Roboto,Helvetica,Arial,sans-serif;
     font-style: normal;
     font-size: 1.43rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.3px;
   }
 

@@ -2,7 +2,7 @@
   <div class="actions-container" v-if='showContent'>
       <div class="box">
         <ul class="action-list">
-          <li class="actions">View Notes</li>
+          <li class="actions" v-on:click='displayNotes'>View Notes</li>
           <li class="actions">Create New</li>
         </ul>
       </div>
@@ -21,6 +21,14 @@
       ]),
       showContent: function() {
           return this.loginSuccessful;
+      }
+    },
+    methods: {
+      ...mapActions([
+        'toggleNotesVisible'
+      ]),
+      displayNotes() {
+        this.toggleNotesVisible();
       }
     }
   }
@@ -51,7 +59,7 @@
         background: transparent;
       }
       .actions:hover {
-        background-color: #e9e9e9;
+        background-color: #f0efef;
         cursor: pointer;
       }
   }

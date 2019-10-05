@@ -10,8 +10,10 @@ export default new Vuex.Store({
     loginError: null,
     loginSuccessful: false,
     userId: '',
-    username: ''
+    username: '',
+    notesVisible: false
   },
+
   mutations: {
     loginStart: state => state.loggingIn = true,
     loginStop: (state, errorMessage) => {
@@ -21,8 +23,10 @@ export default new Vuex.Store({
     },
     updateUserId: (state, userId) => {
       state.userId = userId;
-    }
+    },
+    toggleNotes: state => state.notesVisible = true
   },
+
   actions: {
     doLogin({commit}, loginData) {
       commit('loginStart');
@@ -37,6 +41,11 @@ export default new Vuex.Store({
         commit('loginStop', 'Invalid email/password combination. Please try again.');
         console.log(this.state.loginSuccessful);
       })
+    },
+
+    toggleNotesVisible({commit}) {
+      commit('toggleNotes');
+      //console.log('state.notesVisible: ' + this.state.notesVisible);
     }
   }
 })
