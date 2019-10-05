@@ -11,7 +11,30 @@ export default new Vuex.Store({
     loginSuccessful: false,
     userId: '',
     username: '',
-    notesVisible: false
+    notesVisible: false,
+    notes: [
+      {
+        description: 'This is a demo note to test out the appearence of the notes on the webpage.'
+      },
+      {
+        description: 'description2'
+      },
+      {
+        description: 'description3'
+      },
+      {
+        description: 'description4'
+      },
+      {
+        description: 'description5'
+      }
+    ]
+  },
+
+  getters: {
+    noteList(state) {
+      return state.notes;
+    }
   },
 
   mutations: {

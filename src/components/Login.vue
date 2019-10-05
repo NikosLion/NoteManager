@@ -89,12 +89,13 @@
       }
       button {
         padding: .5rem;
-        background-color: mediumaquamarine;
+        background-color: #96cebc;;
         border: 1px solid gray;
         border-radius: 3px;
         cursor: pointer;
         &:hover {
-          background-color: rgb(0, 184, 107);
+          background-color: rgb(96, 194, 161);
+          transition: background-color 0.5s ease;
         }
       }
     }

@@ -40,6 +40,7 @@ header {
   #logo {
     padding-left: 1%;
     margin: 4px;
+    color: #272727;
     font-family: Roboto,Helvetica,Arial,sans-serif;
     font-style: normal;
     font-size: 1.43rem;
@@ -50,6 +51,7 @@ header {
   #welcome {
     padding-right: 1%;
     margin: 4px;
+    color: #272727;
     font-family: Roboto,Helvetica,Arial,sans-serif;
     font-style: normal;
     font-size: 1.26rem;

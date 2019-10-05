@@ -2,7 +2,10 @@
   <div id="app">
     <Navbar />
     <Login />
-    <Actions />
+    <div id="main">
+      <Actions />
+      <Notes />
+    </div>
   </div>
 </template>
 
@@ -10,13 +13,15 @@
 import Navbar from './components/Navbar.vue'
 import Login from './components/Login.vue'
 import Actions from './components/Actions.vue'
+import Notes from './components/Notes.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
     Login,
-    Actions
+    Actions,
+    Notes
   }
 }
 </script>
@@ -36,7 +41,13 @@ export default {
  }
 
  #app {
-  display: block;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+ }
+
+ #main{
+   display: flex;
+   align-content: space-between;
+   height: calc(100vh - 100px)
  }
 </style>
