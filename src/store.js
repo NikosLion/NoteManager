@@ -48,7 +48,12 @@ export default new Vuex.Store({
     updateUserId: (state, userId) => {
       state.userId = userId;
     },
-    toggleNotes: state => state.notesVisible = true,
+    toggleNotes: state => {
+      if(state.notes.length !== 0){
+        state.notesVisible = true;
+      }
+      state.createVisible = false;
+    },
     toggleCreate: state => {
       state.notesVisible = false;
       state.createVisible = true;
@@ -57,6 +62,12 @@ export default new Vuex.Store({
       state.notes.push({description: newNoteDescription});
       state.notesVisible = true;
       state.createVisible = false;
+    },
+    delNote: (state, index) => {
+      state.notes.splice(index,1);
+      if(state.notes.length === 0){
+        state.notesVisible = false;
+      }
     }
   },
 
@@ -89,6 +100,10 @@ export default new Vuex.Store({
     createNote({commit}, newNote) {
       //console.log(newNote.description);
       commit('newNote', newNote.description);
+    },
+
+    deleteNote({commit}, index) {
+      commit('delNote', index);
     }
   }
 })

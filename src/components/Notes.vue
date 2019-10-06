@@ -7,14 +7,14 @@
                 <p class="description">{{note.description}}</p>
                 <div class="button-container">
                     <button>Edit</button>
-                    <button>Delete</button>
+                    <button v-on:click="deleteNoteEvent(index)">Delete</button>
                 </div>
             </li>
         </ul>
     </div>
     <div class="create" v-if='showCreate'>
         <textarea placeholder="New Note..." cols="60" rows="1" v-model="note"></textarea>
-        <button id="create-button" v-on:click='newNote'>Create</button>
+        <button id="create-button" v-on:click='newNoteEvent'>Create</button>
     </div>
   </div>
 </template>
@@ -46,13 +46,17 @@
     
     methods: {
         ...mapActions([
-            'createNote'
+            'createNote',
+            'deleteNote'
         ]),
-        newNote: function() {
+        newNoteEvent: function() {
             console.log('this.note: ' + this.note);
             if(this.note) {
                 this.createNote({description: this.note});
             }
+        },
+        deleteNoteEvent: function(index) {
+            this.deleteNote(index);
         }
     }
   }

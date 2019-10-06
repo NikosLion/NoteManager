@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="navbar-container">
         <header>
             <h1 id="logo">Mail Note Manager</h1>
             <h4 id="welcome" v-if='showWelcome'>welcome {{username}}</h4>
@@ -26,6 +26,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#navbar-container {
+  max-height: 43px;
+}
 header {
     display: flex;
     justify-content: space-between;;
