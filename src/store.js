@@ -13,23 +13,7 @@ export default new Vuex.Store({
     username: '',
     notesVisible: false,
     createVisible: false,
-    notes: [
-      {
-        description: 'This is a demo note to test out the appearence of the notes on the webpage.'
-      },
-      {
-        description: 'description2'
-      },
-      {
-        description: 'description3'
-      },
-      {
-        description: 'description4'
-      },
-      {
-        description: 'description5'
-      }
-    ]
+    notes: [{}]
   },
 
   getters: {
@@ -48,7 +32,9 @@ export default new Vuex.Store({
     updateUserId: (state, userId) => {
       state.userId = userId;
     },
-    toggleNotes: state => {
+    toggleNotes: (state, notes) => {
+      state.notes = [];
+      state.notes = notes;
       if(state.notes.length !== 0){
         state.notesVisible = true;
       }
@@ -80,16 +66,39 @@ export default new Vuex.Store({
         commit('loginStop', null);
         commit('updateUserId', response.data.token);
         console.log(this.state.userId);
+        console.log(response.headers);
+        console.log(response.data);
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
       })
       .catch(error => {
         commit('loginStop', 'Invalid email/password combination. Please try again.');
-        console.log(this.state.loginSuccessful);
+        console.log(error);
       })
     },
 
     toggleNotesVisible({commit}) {
-      commit('toggleNotes');
-      //console.log('state.notesVisible: ' + this.state.notesVisible);
+      axios.get('https://bowtie.mailbutler.io/api/v2/notes')
+      .then((response) => {
+        //console.log(response.headers);
+        //console.log(response.data);
+
+        //Define updated note object.
+        let notes = [];
+        for(let i=0; i<response.data.length; i++){
+          let id = response.data[i].id;
+          let text = response.data[i].text;
+          let newNote = {
+            id: id,
+            text: text
+          }
+          notes.push(newNote);
+        }
+        //Pass new note object to mutate state.notes array with updated values.
+        commit('toggleNotes', notes);
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
 
     toggleCreateVisible({commit}) {

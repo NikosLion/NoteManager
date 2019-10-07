@@ -4,7 +4,7 @@
         <h3 class="msg">Your Notes</h3>
         <ul class="notes-list">
             <li class="note" v-for="(note, index) in noteList" :key="index">
-                <p class="description">{{note.description}}</p>
+                <p class="description">{{note.text}}</p>
                 <div class="button-container">
                     <button>Edit</button>
                     <button v-on:click="deleteNoteEvent(index)">Delete</button>
