@@ -52,7 +52,7 @@
         newNoteEvent: function() {
             console.log('this.note: ' + this.note);
             if(this.note) {
-                this.createNote({description: this.note});
+                this.createNote({text: this.note});
             }
         },
         deleteNoteEvent: function(index) {

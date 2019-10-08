@@ -79,22 +79,27 @@ export default new Vuex.Store({
     toggleNotesVisible({commit}) {
       axios.get('https://bowtie.mailbutler.io/api/v2/notes')
       .then((response) => {
-        //console.log(response.headers);
-        //console.log(response.data);
+        console.log(response.headers);
+        console.log(response.data);
 
         //Define updated note object.
         let notes = [];
         for(let i=0; i<response.data.length; i++){
           let id = response.data[i].id;
           let text = response.data[i].text;
+          let context = response.data[i].context;
           let newNote = {
             id: id,
-            text: text
+            text: text,
+            context: context
           }
           notes.push(newNote);
         }
         //Pass new note object to mutate state.notes array with updated values.
         commit('toggleNotes', notes);
+        for(let i=0; i<this.state.notes.length; i++) {
+          console.log('note id: ' + this.state.notes[i].id);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -108,11 +113,31 @@ export default new Vuex.Store({
 
     createNote({commit}, newNote) {
       //console.log(newNote.description);
-      commit('newNote', newNote.description);
+      //POST to 'https://bowtie.mailbutler.io/api/v2/notes'
+      axios.post('https://bowtie.mailbutler.io/api/v2/notes', 
+      {
+        context: 'papapap',
+        text: newNote.text //to text na to pairnei apo to newNoteEvent
+      })
+      .then((response) => {
+        console.log('Note Created Succesfully');
+        this.dispatch('toggleNotesVisible');
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
 
-    deleteNote({commit}, index) {
-      commit('delNote', index);
+    deleteNote({state}, index) {
+      axios.delete('https://bowtie.mailbutler.io/api/v2/notes/' + state.notes[index].id)
+      .then((response) => {
+        console.log(response.headers);
+        console.log(response.data);
+        this.dispatch('toggleNotesVisible');
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
   }
 })

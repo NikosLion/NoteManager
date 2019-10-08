@@ -30,9 +30,9 @@ export default {
   max-height: 43px;
 }
 header {
+    max-height: 43px;
     display: flex;
     justify-content: space-between;;
-    width: 100%;
     background-color: #96cebc;
     margin-top: 0px;
     padding-top: 0px;
