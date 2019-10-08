@@ -13,6 +13,9 @@ export default new Vuex.Store({
     username: '',
     notesVisible: false,
     createVisible: false,
+    editVisible: false,
+    noteToEdit: -1,
+    noteForCreate: -1,
     notes: [{}]
   },
 
@@ -39,10 +42,19 @@ export default new Vuex.Store({
         state.notesVisible = true;
       }
       state.createVisible = false;
+      state.editVisible = false;
     },
-    toggleCreate: state => {
+    toggleCreate: (state, index) => {
       state.notesVisible = false;
+      state.editVisible = false;
       state.createVisible = true;
+      state.noteForCreate = index;
+    },
+    toggleEdit: (state,index) => {
+      state.notesVisible = false;
+      state.createVisible = false;
+      state.editVisible = true;
+      state.noteToEdit = index;
     },
     newNote: (state, newNoteDescription) => {
       state.notes.push({description: newNoteDescription});
@@ -65,9 +77,6 @@ export default new Vuex.Store({
       .then((response) => {
         commit('loginStop', null);
         commit('updateUserId', response.data.token);
-        console.log(this.state.userId);
-        console.log(response.headers);
-        console.log(response.data);
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
       })
       .catch(error => {
@@ -79,9 +88,6 @@ export default new Vuex.Store({
     toggleNotesVisible({commit}) {
       axios.get('https://bowtie.mailbutler.io/api/v2/notes')
       .then((response) => {
-        console.log(response.headers);
-        console.log(response.data);
-
         //Define updated note object.
         let notes = [];
         for(let i=0; i<response.data.length; i++){
@@ -97,27 +103,21 @@ export default new Vuex.Store({
         }
         //Pass new note object to mutate state.notes array with updated values.
         commit('toggleNotes', notes);
-        for(let i=0; i<this.state.notes.length; i++) {
-          console.log('note id: ' + this.state.notes[i].id);
-        }
       })
       .catch(error => {
         console.log(error);
       })
     },
 
-    toggleCreateVisible({commit}) {
-      commit('toggleCreate');
-      //console.log(this.state.createVisible);
+    toggleCreateVisible({commit}, index) {
+      commit('toggleCreate', index);
     },
 
-    createNote({commit}, newNote) {
-      //console.log(newNote.description);
-      //POST to 'https://bowtie.mailbutler.io/api/v2/notes'
+    createNote({state}, newNote) {
       axios.post('https://bowtie.mailbutler.io/api/v2/notes', 
       {
-        context: 'papapap',
-        text: newNote.text //to text na to pairnei apo to newNoteEvent
+        context: state.notes[state.noteForCreate].context,
+        text: newNote.text
       })
       .then((response) => {
         console.log('Note Created Succesfully');
@@ -126,6 +126,10 @@ export default new Vuex.Store({
       .catch(error => {
         console.log(error);
       })
+    },
+
+    toggleEditVisible({commit, state}, index) {
+      commit('toggleEdit', index);
     },
 
     deleteNote({state}, index) {
@@ -137,6 +141,21 @@ export default new Vuex.Store({
       })
       .catch(error => {
         console.log(error);
+      })
+    },
+
+    editNote({state}, editedNote) {
+      axios.put('https://bowtie.mailbutler.io/api/v2/notes/' + state.notes[state.noteToEdit].id,
+      {
+        text: editedNote.text,
+        context: state.notes[state.noteToEdit].context,
+      })
+      .then(() => {
+        this.dispatch('toggleNotesVisible');
+      })
+      .catch(error => {
+        console.log(error);
+        this.dispatch('toggleNotesVisible');
       })
     }
   }

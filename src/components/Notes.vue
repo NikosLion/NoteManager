@@ -6,8 +6,9 @@
             <li class="note" v-for="(note, index) in noteList" :key="index">
                 <p class="description">{{note.text}}</p>
                 <div class="button-container">
-                    <button>Edit</button>
+                    <button v-on:click="displayEdit(index)">Edit</button>
                     <button v-on:click="deleteNoteEvent(index)">Delete</button>
+                    <button v-on:click="displayCreate(index)">Create New</button>
                 </div>
             </li>
         </ul>
@@ -15,6 +16,10 @@
     <div class="create" v-if='showCreate'>
         <textarea placeholder="New Note..." cols="60" rows="1" v-model="note"></textarea>
         <button id="create-button" v-on:click='newNoteEvent'>Create</button>
+    </div>
+    <div class="edit" v-if='showEdit'>
+        <textarea placeholder="Edit your note here..." cols="60" rows="1" v-model="editedText"></textarea>
+        <button id="update-button" v-on:click='editNoteEvent()'>Update</button>
     </div>
   </div>
 </template>
@@ -25,19 +30,24 @@
   export default {
     data() {
       return {
-        note: ''
+        note: '',
+        editedText: ''
       }
     },
     computed: {
         ...mapState([
             'notesVisible',
             'createVisible',
+            'editVisible'
         ]),
         showContent: function() {
           return this.notesVisible;
         },
         showCreate: function() {
             return this.createVisible;
+        },
+        showEdit: function(index) {
+            return this.editVisible;
         },
         noteList: function() {
             return this.$store.getters.noteList;
@@ -47,7 +57,10 @@
     methods: {
         ...mapActions([
             'createNote',
-            'deleteNote'
+            'deleteNote',
+            'toggleEditVisible',
+            'toggleCreateVisible',
+            'editNote'
         ]),
         newNoteEvent: function() {
             console.log('this.note: ' + this.note);
@@ -57,6 +70,19 @@
         },
         deleteNoteEvent: function(index) {
             this.deleteNote(index);
+        },
+        displayEdit: function(index) {
+            this.toggleEditVisible(index);
+        },
+        editNoteEvent: function() {
+            if(this.editedText) {
+                this.editNote({text: this.editedText});
+            }
+            
+        },
+        displayCreate(index) {
+            console.log('INDEX THAT WILL SE noteForCreate: ' + index);
+            this.toggleCreateVisible(index);
         }
     }
   }
@@ -105,7 +131,7 @@
             }
         }
     }
-    .create{
+    .create {
         display: flex;
         flex-direction: column;
         align-content: stretch;
@@ -119,6 +145,25 @@
         }
 
         #create-button {
+            max-width: 60px;
+            margin-top: 1%;
+        }
+    }
+
+    .edit {
+        display: flex;
+        flex-direction: column;
+        align-content: stretch;
+        textarea{
+            outline: none;
+            resize: none;
+            border: none;
+            padding: 1%;
+            font-size: 1.3rem;
+            background-color: #f1d47d;
+        }
+
+        #update-button {
             max-width: 60px;
             margin-top: 1%;
         }
