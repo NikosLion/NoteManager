@@ -63,7 +63,6 @@
             'editNote'
         ]),
         newNoteEvent: function() {
-            console.log('this.note: ' + this.note);
             if(this.note) {
                 this.createNote({text: this.note});
             }
@@ -81,7 +80,6 @@
             
         },
         displayCreate(index) {
-            console.log('INDEX THAT WILL SE noteForCreate: ' + index);
             this.toggleCreateVisible(index);
         }
     }

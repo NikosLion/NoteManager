@@ -134,9 +134,7 @@ export default new Vuex.Store({
 
     deleteNote({state}, index) {
       axios.delete('https://bowtie.mailbutler.io/api/v2/notes/' + state.notes[index].id)
-      .then((response) => {
-        console.log(response.headers);
-        console.log(response.data);
+      .then(() => {
         this.dispatch('toggleNotesVisible');
       })
       .catch(error => {
