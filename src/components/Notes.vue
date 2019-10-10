@@ -46,7 +46,7 @@
         showCreate: function() {
             return this.createVisible;
         },
-        showEdit: function(index) {
+        showEdit: function() {
             return this.editVisible;
         },
         noteList: function() {

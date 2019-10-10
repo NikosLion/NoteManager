@@ -81,7 +81,6 @@ export default new Vuex.Store({
       })
       .catch(error => {
         commit('loginStop', 'Invalid email/password combination. Please try again.');
-        console.log(error);
       })
     },
 
@@ -104,8 +103,8 @@ export default new Vuex.Store({
         //Pass new note object to mutate state.notes array with updated values.
         commit('toggleNotes', notes);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
+        //
       })
     },
 
@@ -119,12 +118,11 @@ export default new Vuex.Store({
         context: state.notes[state.noteForCreate].context,
         text: newNote.text
       })
-      .then((response) => {
-        console.log('Note Created Succesfully');
+      .then(() => {
         this.dispatch('toggleNotesVisible');
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
+        //
       })
     },
 
@@ -137,8 +135,8 @@ export default new Vuex.Store({
       .then(() => {
         this.dispatch('toggleNotesVisible');
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
+        //
       })
     },
 
@@ -151,8 +149,7 @@ export default new Vuex.Store({
       .then(() => {
         this.dispatch('toggleNotesVisible');
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         this.dispatch('toggleNotesVisible');
       })
     }
