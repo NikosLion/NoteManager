@@ -79,7 +79,7 @@ export default new Vuex.Store({
         commit('updateUserId', response.data.token);
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
       })
-      .catch(error => {
+      .catch(() => {
         commit('loginStop', 'Invalid email/password combination. Please try again.');
       })
     },
@@ -126,7 +126,7 @@ export default new Vuex.Store({
       })
     },
 
-    toggleEditVisible({commit, state}, index) {
+    toggleEditVisible({commit}, index) {
       commit('toggleEdit', index);
     },
 
