@@ -1,53 +1,29 @@
 <template>
   <div id="app">
-    <Navbar />
-    <Login />
-    <div id="main">
-      <Actions />
-      <Notes />
-    </div>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
-<script>
-import Navbar from './components/Navbar.vue'
-import Login from './components/Login.vue'
-import Actions from './components/Actions.vue'
-import Notes from './components/Notes.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from './components/HelloWorld.vue';
 
-export default {
-  name: 'app',
+@Component({
   components: {
-    Navbar,
-    Login,
-    Actions,
-    Notes
-  }
-}
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
 </script>
 
-<style>
- * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
- }
-
- body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
- }
-
- #app {
-  display: flex;
-  flex-direction: column;
- }
-
- #main{
-   display: flex;
-   align-content: space-between;
-   height: calc(100vh - 100px)
- }
+<style lang="scss">
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
