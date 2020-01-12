@@ -16,7 +16,11 @@ export default new Vuex.Store({
     editVisible: false,
     noteToEdit: -1,
     noteForCreate: -1,
-    notes: [{}]
+    notes: [{
+      context: String,
+      id: Number,
+      description: String
+    }]
   },
 
   getters: {
@@ -57,7 +61,7 @@ export default new Vuex.Store({
       state.noteToEdit = index;
     },
     newNote: (state, newNoteDescription) => {
-      state.notes.push({description: newNoteDescription});
+      //state.notes.push({description: newNoteDescription});
       state.notesVisible = true;
       state.createVisible = false;
     },
